@@ -8,13 +8,17 @@ import "hardhat/console.sol";
  * @dev Store and retrieve a number 
  */
 contract SimpleStorage {
-    uint256 public value;
+    uint256 value;
 
     constructor(uint _value) {
-        console.log('constructor initial value:', _value);
+        console.log('SimpleStorage constructor initial value:', _value);
         value = _value;
     }
 
+
+    function get() public  view returns (uint256) {
+        return value;
+    }
 
     function set(uint256 _value) public {
         value = _value;

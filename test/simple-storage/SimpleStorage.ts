@@ -16,7 +16,7 @@ describe("SimpleStorage", () => {
     it("Should set the initial value", async () => {
       const { contract } = await loadFixture(deploy);
 
-      expect(await contract.value()).to.equal(INITIAL_VALUE);
+      expect(await contract.get()).to.equal(INITIAL_VALUE);
     });
   });
 
@@ -26,7 +26,7 @@ describe("SimpleStorage", () => {
 
       const value = INITIAL_VALUE + 1;
       await contract.set(value);
-      expect(await contract.value()).to.equal(value);
+      expect(await contract.get()).to.equal(value);
     });
   });
 });
