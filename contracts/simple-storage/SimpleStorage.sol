@@ -16,7 +16,7 @@ contract SimpleStorage {
     }
 
 
-    function get() public  view returns (uint256) {
+    function get() public view returns (uint256) {
         return value;
     }
 
