@@ -5,19 +5,19 @@ import "hardhat/console.sol";
 import "./SimpleStorage.sol";
 
 /**
- * @title SimpleStorageFactory
+ * @title SimpleStorageDelegate
  * @dev Creates an instance of SimpleStorage
  */
-contract SimpleStorageFactory {
+contract SimpleStorageDelegate {
     SimpleStorage simpleStorage;
 
     constructor(uint _value) {
-        console.log('SimpleStorageFactory constructor initial value:', _value);
+        console.log('SimpleStorageDelegate constructor initial value:', _value);
         simpleStorage = new SimpleStorage(_value);
     }
 
     // delegate
-    function get() public  view returns (uint256) {
+    function get() public view returns (uint256) {
         return simpleStorage.get();
     }
 

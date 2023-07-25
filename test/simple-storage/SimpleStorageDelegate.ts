@@ -6,7 +6,7 @@ const INITIAL_VALUE = 0;
 
 describe("SimpleStorage", () => {
   const deploy = async () => {
-    const Contract = await ethers.getContractFactory("SimpleStorageFactory");
+    const Contract = await ethers.getContractFactory("SimpleStorageDelegate");
     const contract = await Contract.deploy(INITIAL_VALUE);
 
     return { contract };
