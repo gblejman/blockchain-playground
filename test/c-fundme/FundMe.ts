@@ -120,6 +120,7 @@ describe("FundMe", () => {
       await addr1.sendTransaction({
         to: contract.getAddress(),
         value: minContrib,
+        // note no (call) data, no function call, just value ether transfer, triggers receive
       });
 
       expect(await contract.balanceOf(addr1.address)).to.equal(minContrib);
@@ -135,6 +136,7 @@ describe("FundMe", () => {
       await addr1.sendTransaction({
         to: contract.getAddress(),
         value: minContrib,
+        // note (call) data but inexistent function call, triggers fallback
         data: "0x00",
       });
 
