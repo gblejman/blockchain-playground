@@ -12,12 +12,12 @@ contract FundMe {
     /**
      * Contract owner/deployer
      */
-    address public owner;
+    address public immutable owner;
 
     /**
      * Minimal contribution
      */
-    uint256 public minContrib;
+    uint256 public immutable minContrib;
 
     /**
      * Mapping of funders to amounts
