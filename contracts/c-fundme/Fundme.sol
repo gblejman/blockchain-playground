@@ -4,6 +4,11 @@ pragma solidity ^0.8.9;
 import "hardhat/console.sol";
 
 /**
+ * Custom error 
+ */
+error NotOwner();
+
+/**
  * @title FundMe
  * @dev Fund a project. Only owner can widthdraw
  */
@@ -32,7 +37,9 @@ contract FundMe {
     event Fund(uint256 amount);
 
     modifier onlyOwner {
-     require(msg.sender == owner, 'Must be owner');
+    if (msg.sender != owner) {
+        revert NotOwner();
+    }
      _;   
     }
     

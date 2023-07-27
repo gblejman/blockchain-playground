@@ -79,12 +79,12 @@ describe("FundMe", () => {
     it("Should revert if not owner", async () => {
       const { contract, addr1 } = await loadFixture(deploy);
 
-      await expect(contract.connect(addr1).withdraw()).to.revertedWith(
-        `Must be owner`
-      );
+      await expect(
+        contract.connect(addr1).withdraw()
+      ).to.revertedWithCustomError(contract, "NotOwner");
     });
 
-    it("Should allow owner to widthdraw balance - changeEtherBalance helper", async () => {
+    it("Should allow owner to withdraw balance - changeEtherBalance helper", async () => {
       const { contract, minContrib, owner } = await loadFixture(deploy);
 
       const provider = ethers.provider;
