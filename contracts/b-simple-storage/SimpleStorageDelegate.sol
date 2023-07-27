@@ -6,7 +6,7 @@ import "./SimpleStorage.sol";
 
 /**
  * @title SimpleStorageDelegate
- * @dev Creates an instance of SimpleStorage
+ * @dev Creates an instance of SimpleStorage on construction time and delegate calls to it
  */
 contract SimpleStorageDelegate {
     SimpleStorage simpleStorage;
