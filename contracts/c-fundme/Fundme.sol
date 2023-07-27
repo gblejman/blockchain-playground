@@ -82,4 +82,16 @@ contract FundMe {
     function balanceOf(address _funder) public view returns (uint256 amount) {
         return fundings[_funder];
     }
+
+    // Function to receive Ether. msg.data must be empty
+    receive() external payable {
+        console.log('receive triggered');
+        fund();
+    }
+
+    // Fallback function is called when msg.data is not empty
+    fallback() external payable {
+        console.log('fallback triggered');
+        fund();
+    }
 }

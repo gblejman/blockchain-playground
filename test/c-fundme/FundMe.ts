@@ -1,4 +1,4 @@
-import { ethers, network } from "hardhat";
+import { ethers } from "hardhat";
 import { loadFixture } from "@nomicfoundation/hardhat-toolbox/network-helpers";
 import { expect } from "chai";
 
@@ -108,6 +108,37 @@ describe("FundMe", () => {
       expect(await provider.getBalance(contract.getAddress())).to.equal(0);
       // funder balance
       expect(await contract.balanceOf(owner.address)).to.equal(0);
+    });
+  });
+
+  describe("Receive", () => {
+    it("Should fund when just sending ether and empty data", async () => {
+      const { contract, minContrib, addr1 } = await loadFixture(deploy);
+
+      expect(await contract.balanceOf(addr1.address)).to.equal(0);
+
+      await addr1.sendTransaction({
+        to: contract.getAddress(),
+        value: minContrib,
+      });
+
+      expect(await contract.balanceOf(addr1.address)).to.equal(minContrib);
+    });
+  });
+
+  describe("Fallback", () => {
+    it("Should fund when just sending ether and non empty data", async () => {
+      const { contract, minContrib, addr1 } = await loadFixture(deploy);
+
+      expect(await contract.balanceOf(addr1.address)).to.equal(0);
+
+      await addr1.sendTransaction({
+        to: contract.getAddress(),
+        value: minContrib,
+        data: "0x00",
+      });
+
+      expect(await contract.balanceOf(addr1.address)).to.equal(minContrib);
     });
   });
 });
