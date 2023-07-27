@@ -30,6 +30,11 @@ contract FundMe {
     address[] funders;
 
     event Fund(uint256 amount);
+
+    modifier onlyOwner {
+     require(msg.sender == owner, 'Must be owner');
+     _;   
+    }
     
     constructor(uint256 _minContrib) {
         console.log('FundMe min contrib %s, owner %s', _minContrib, msg.sender);
@@ -44,9 +49,7 @@ contract FundMe {
         emit Fund(msg.value);
     }
 
-    function withdraw() public {
-        require(msg.sender == owner, 'Must be owner');
-
+    function withdraw() public onlyOwner {
         // reset fundings
         for (uint256 i = 0; i < funders.length; i++) {
             fundings[funders[i]] = 0;
