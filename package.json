@@ -9,7 +9,10 @@
     "format": "prettier '**/*.{js,ts,sol}' --check",
     "format:fix": "prettier '**/*.{js,ts,sol}' --write",
     "coverage": "hardhat coverage --solcoverjs ./.solcover.js",
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "compile": "hardhat compile",
+    "clean": "hardhat clean",
+    "help": "hardhat help"
   },
   "keywords": [],
   "author": "",
