@@ -5,14 +5,14 @@ import { expect } from 'chai';
 const INITIAL_VALUE = 0;
 
 describe('SimpleStorage', () => {
-  const deploy = async () => {
+  async function deploy() {
     const initialValue = INITIAL_VALUE;
 
     const Contract = await ethers.getContractFactory('SimpleStorage');
     const contract = await Contract.deploy(INITIAL_VALUE);
 
     return { contract, initialValue };
-  };
+  }
 
   describe('Deployment', () => {
     it('Should set the initial value', async () => {

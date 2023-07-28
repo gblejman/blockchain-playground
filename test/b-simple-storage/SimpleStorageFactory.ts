@@ -5,7 +5,7 @@ import { expect } from 'chai';
 const INITIAL_VALUE = 0;
 
 describe('SimpleStorageFactory', () => {
-  const deploy = async () => {
+  async function deploy() {
     const initialValue = INITIAL_VALUE;
 
     const Contract = await ethers.getContractFactory('SimpleStorageFactory');
@@ -15,7 +15,7 @@ describe('SimpleStorageFactory', () => {
     const [owner, addr1] = await ethers.getSigners();
 
     return { contract, initialValue, owner, addr1 };
-  };
+  }
 
   describe('Interaction', () => {
     it('Should set the initial value', async () => {

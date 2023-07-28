@@ -5,14 +5,14 @@ import { expect } from 'chai';
 const MIN_CONTRIB = 1;
 
 describe('FundMe', () => {
-  const deploy = async () => {
+  async function deploy() {
     const minContrib = MIN_CONTRIB;
 
     const Contract = await ethers.getContractFactory('FundMeChainlink');
     const contract = await Contract.deploy(minContrib);
 
     return { contract, minContrib };
-  };
+  }
 
   describe('Deployment', () => {
     it('Should set the minimal contribution value', async () => {
