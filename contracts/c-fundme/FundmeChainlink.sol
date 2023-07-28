@@ -12,15 +12,15 @@ contract FundMeChainlink {
     // chainlink proxy aggregator for ETH/USD @ Sepolia testnet
     AggregatorV3Interface dataFeed;
     uint256 public minContrib;
-    
+
     constructor(uint256 _minContrib) {
-        console.log('FundMe min contrib:', _minContrib);
+        console.log("FundMe min contrib:", _minContrib);
         minContrib = _minContrib;
         dataFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
     }
 
     function fund() public payable {
-        require(msg.value >= minContrib, 'Must be >= min contrib');
+        require(msg.value >= minContrib, "Must be >= min contrib");
     }
 
     function withdraw() public {}

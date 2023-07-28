@@ -12,7 +12,7 @@ contract SimpleStorageFactory {
     /**
      * Mapping of owners to contracts
      */
-    mapping (address => SimpleStorage) contracts;
+    mapping(address => SimpleStorage) contracts;
 
     /**
      * Create instance of contract and store by owner
@@ -26,14 +26,14 @@ contract SimpleStorageFactory {
     // delegate
     function get() public view returns (uint256) {
         // check contract exists for owner - mapping defaults are: any possible address key, any possible contract value
-        require(address(contracts[msg.sender]).code.length > 0, 'Contract does not exist');
+        require(address(contracts[msg.sender]).code.length > 0, "Contract does not exist");
         return contracts[msg.sender].get();
     }
 
     // delegate
     function set(uint256 _value) public {
         // check contract exists for owner
-        require(address(contracts[msg.sender]).code.length > 0, 'Contract does not exist');
+        require(address(contracts[msg.sender]).code.length > 0, "Contract does not exist");
         contracts[msg.sender].set(_value);
     }
 }

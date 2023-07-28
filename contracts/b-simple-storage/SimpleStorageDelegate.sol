@@ -12,7 +12,7 @@ contract SimpleStorageDelegate {
     SimpleStorage simpleStorage;
 
     constructor(uint _value) {
-        console.log('SimpleStorageDelegate constructor initial value:', _value);
+        console.log("SimpleStorageDelegate constructor initial value:", _value);
         simpleStorage = new SimpleStorage(_value);
     }
 
