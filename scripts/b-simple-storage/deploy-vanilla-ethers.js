@@ -16,6 +16,7 @@ const main = async () => {
   await contract.waitForDeployment();
 
   console.log('Deployed contract:', contract);
+  console.log('Deployment tx:', contract.deploymentTransaction());
   console.log('Contract address:', contract.target);
 };
 
