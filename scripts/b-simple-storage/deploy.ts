@@ -1,13 +1,20 @@
-import { ethers, network, run } from 'hardhat';
+import { ethers, network, run, config } from 'hardhat';
+
+const isLocalNetwork = (chainId?: number) => {
+  return [config.networks.hardhat.chainId, config.networks.localhost.chainId].includes(chainId);
+};
 
 async function main() {
+  console.log('Current network:', network.config.chainId);
+
   const contract = await ethers.deployContract('SimpleStorage', [1]);
   await contract.waitForDeployment();
 
   console.log('Contract Address:', contract.target);
 
   // try verify when not hardhat
-  if (network.config.chainId != 31337) {
+
+  if (!isLocalNetwork(network.config.chainId)) {
     console.log('Try verify contract... waiting for 5 confirmations');
 
     // Wait to avoid this error:
