@@ -1,7 +1,7 @@
 // Requiring ethers directly intead of hardhat just for learning purposes - injected ethers by hardhat plugin has same api
 import 'dotenv/config';
 import { ethers } from 'ethers';
-import { SimpleStorage } from '../../typechain-types';
+import { SimpleStorage__factory } from '../../typechain-types';
 
 /**
  * Manual sample of connecting to hardhat network and deploying a contract
@@ -13,7 +13,7 @@ const main = async () => {
   const provider = new ethers.JsonRpcProvider(process.env.LOCALHOST_RPC_URL); // printed when running `npx hardhat node`
   const wallet = new ethers.Wallet(accountKey, provider);
   const { abi, bytecode } = require('../../artifacts/contracts/b-simple-storage/SimpleStorage.sol/SimpleStorage.json'); // compiled artifact after `npx hardhat compile`
-  const contractFactory = new ethers.ContractFactory(abi, bytecode, wallet);
+  const contractFactory = (await new ethers.ContractFactory(abi, bytecode, wallet)) as SimpleStorage__factory;
   const contract = await contractFactory.deploy(1);
   await contract.waitForDeployment();
 
@@ -21,10 +21,9 @@ const main = async () => {
   console.log('Deployment tx:', contract.deploymentTransaction());
   console.log('Contract address:', contract.target);
 
-  // TODO: How to better type contract?
-  console.log('Contract value:', await (contract as SimpleStorage).get());
-  await (contract as SimpleStorage).set(5);
-  console.log('Contract value:', await (contract as SimpleStorage).get());
+  console.log('Contract value:', await contract.get());
+  await contract.set(5);
+  console.log('Contract value:', await contract.get());
 };
 
 main()
