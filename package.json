@@ -13,6 +13,7 @@
     "compile": "hardhat compile",
     "clean": "hardhat clean",
     "help": "hardhat help",
+    "accounts": "hardhat accounts",
     "deploy:localhost:simple-storage-vanilla": "npx ts-node scripts/b-simple-storage/deploy-vanilla-ethers.ts",
     "deploy:sepolia:simple-storage": "hardhat run scripts/b-simple-storage/deploy.ts --network sepolia"
   },

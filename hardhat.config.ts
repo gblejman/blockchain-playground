@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { HardhatUserConfig } from 'hardhat/config';
 import '@nomicfoundation/hardhat-toolbox';
+import './tasks';
 
 // TODO: move this to a config file/service
 const ETHEREUM_SEPOLIA_RPC_URL = process.env.ETHEREUM_SEPOLIA_RPC_URL || '';
