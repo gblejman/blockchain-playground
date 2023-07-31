@@ -10,7 +10,7 @@ error NotOwner();
 
 /**
  * @title FundMe
- * @dev Fund a project. Only owner can widthdraw
+ * @dev Fund a project with minContrib >= wei amount. Only owner can widthdraw
  */
 contract FundMe {
     /**

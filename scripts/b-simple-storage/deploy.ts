@@ -1,8 +1,5 @@
-import { ethers, network, run, config } from 'hardhat';
-
-const isLocalNetwork = (chainId?: number) => {
-  return [config.networks.hardhat.chainId, config.networks.localhost.chainId].includes(chainId);
-};
+import { ethers, network, run } from 'hardhat';
+import { isDevelopmentChain } from '../../helper-hardhat-config';
 
 async function main() {
   console.log('Current network:', network.config.chainId);
@@ -14,7 +11,7 @@ async function main() {
 
   // try verify when not hardhat
 
-  if (!isLocalNetwork(network.config.chainId)) {
+  if (!isDevelopmentChain(network.name)) {
     console.log('Try verify contract... waiting for 5 confirmations');
 
     // Wait to avoid this error:

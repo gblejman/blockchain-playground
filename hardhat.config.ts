@@ -12,7 +12,6 @@ const REPORT_GAS = process.env.REPORT_GAS !== undefined;
 const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY || '';
 
 const config: HardhatUserConfig = {
-  solidity: '0.8.18',
   defaultNetwork: 'hardhat',
   // check https://chainlist.org/ for a list
   networks: {
@@ -44,6 +43,17 @@ const config: HardhatUserConfig = {
     outputFile: 'gas-report.txt',
     noColors: true,
     coinmarketcap: COINMARKETCAP_API_KEY,
+  },
+  solidity: {
+    compilers: [
+      {
+        version: '0.8.18',
+      },
+      {
+        // Used for "@chainlink/contracts/src/v0.6/tests/MockV3Aggregator.sol";
+        version: '0.6.6',
+      },
+    ],
   },
 };
 
