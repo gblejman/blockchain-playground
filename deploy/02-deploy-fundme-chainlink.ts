@@ -12,7 +12,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const minUsd = 10;
   let priceFeed: string;
 
-  if (isDevelopmentChain(hre.network.name)) {
+  const isDev = isDevelopmentChain(hre.network.name);
+
+  if (isDev) {
     const priceFeedMock = await deployments.get('MockV3Aggregator');
     priceFeed = priceFeedMock.address;
   } else {
@@ -23,10 +25,10 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     from: deployer,
     args: [minUsd, priceFeed],
     log: true,
-    waitConfirmations: VERIFICATION_BLOCK_CONFIRMATIONS || 1,
+    waitConfirmations: isDev ? 1 : VERIFICATION_BLOCK_CONFIRMATIONS,
   });
 
-  if (!isDevelopmentChain(hre.network.name) && process.env.ETHERSCAN_API_KEY) {
+  if (!isDev && process.env.ETHERSCAN_API_KEY) {
     const address = (await deployments.get('FundMeChainlink')).address;
     const args = [minUsd, priceFeed];
     await verify(hre, address, args);
