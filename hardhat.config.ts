@@ -29,6 +29,14 @@ const config: HardhatUserConfig = {
       chainId: 11155111,
     },
   },
+  namedAccounts: {
+    deployer: {
+      default: 0,
+    },
+    user: {
+      default: 1,
+    },
+  },
   // hardhat verify --network <NETWORK> <CONTRACT_ADDRESS> <CONSTRUCTOR_PARAMETERS>
   etherscan: {
     apiKey: {
