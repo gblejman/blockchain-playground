@@ -2,6 +2,7 @@ import { ethers, network } from 'hardhat';
 import { loadFixture } from '@nomicfoundation/hardhat-toolbox/network-helpers';
 import { expect } from 'chai';
 import { isDevelopmentChain, networkConfig, mocks } from '../../helper-hardhat-config';
+import { abi } from '../../artifacts/@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol/AggregatorV3Interface.json';
 
 const MIN_USD = 10;
 
@@ -21,17 +22,27 @@ describe('FundMeChainlink', () => {
       priceFeed = networkConfig[network.config.chainId!].ethUsdPriceFeed;
     }
 
+    console.log('priceFeed:', priceFeed);
     const Contract = await ethers.getContractFactory('FundMeChainlink');
     const contract = await Contract.deploy(minUsd, priceFeed);
+    await contract.waitForDeployment();
+    console.log('Contract address', await contract.getAddress());
 
     const [owner, addr1] = await ethers.getSigners();
 
-    // call price from either mock or actual oracle
-    // const priceFeedContract = await ethers.getContractAt('AggregatorV3Interface', priceFeed);
-    // const [, priceEthUsd] = await priceFeedContract.latestRoundData();
+    // Call price from either mock or actual oracle
 
-    const priceEthUsd = mocks.priceFeed.initialAnswer;
-    const minWei = ((minUsd * 1e18) / (priceEthUsd / 1e8)).toFixed();
+    // Fails: when using contract name as there's the mock one v0.6 and prod v0.8, use abi
+    // const priceFeedContract = await ethers.getContractAt('AggregatorV3Interface', priceFeed);
+    // Please replace AggregatorV3Interface for one of these options wherever you are trying to read its artifact:
+    // @chainlink/contracts/src/v0.6/interfaces/AggregatorV3Interface.sol:AggregatorV3Interface
+    // @chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol:AggregatorV3Interface
+
+    const priceFeedContract = await ethers.getContractAt(abi, priceFeed);
+    const [, priceEthUsd] = await priceFeedContract.latestRoundData();
+
+    // const priceEthUsd = mocks.priceFeed.initialAnswer;
+    const minWei = ((minUsd * 1e18) / (Number(priceEthUsd) / 1e8)).toFixed();
 
     return { contract, minUsd, minWei, minContrib: Number(minWei), priceFeed, owner, addr1 };
   }
