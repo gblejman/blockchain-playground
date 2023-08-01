@@ -19,7 +19,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   }
 
   await deploy('FundMeChainlink', {
-    contract: 'FundMeChainlink',
     from: deployer,
     args: [minUsd, priceFeed],
     log: true,
