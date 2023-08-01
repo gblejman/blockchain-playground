@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { HardhatUserConfig } from 'hardhat/config';
 import '@nomicfoundation/hardhat-toolbox';
-import 'hardhat-gas-reporter';
+import 'hardhat-deploy';
 import './tasks';
 
 // TODO: move this to a config file/service and better parsing to types

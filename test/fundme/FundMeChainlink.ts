@@ -41,7 +41,6 @@ describe('FundMeChainlink', () => {
     const priceFeedContract = await ethers.getContractAt(abi, priceFeed);
     const [, priceEthUsd] = await priceFeedContract.latestRoundData();
 
-    // const priceEthUsd = mocks.priceFeed.initialAnswer;
     const minWei = ((minUsd * 1e18) / (Number(priceEthUsd) / 1e8)).toFixed();
 
     return { contract, minUsd, minWei, minContrib: Number(minWei), priceFeed, owner, addr1 };
