@@ -1,6 +1,7 @@
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { DeployFunction } from 'hardhat-deploy/types';
-import { isDevelopmentChain, networkConfig } from '../helper-hardhat-config';
+import { VERIFICATION_BLOCK_CONFIRMATIONS, isDevelopmentChain, networkConfig } from '../helper-hardhat-config';
+import { verify } from '../utils/verify';
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployments, getNamedAccounts } = hre;
@@ -22,7 +23,14 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     from: deployer,
     args: [minUsd, priceFeed],
     log: true,
+    waitConfirmations: VERIFICATION_BLOCK_CONFIRMATIONS || 1,
   });
+
+  if (!isDevelopmentChain(hre.network.name) && process.env.ETHERSCAN_API_KEY) {
+    const address = (await deployments.get('FundMeChainlink')).address;
+    const args = [minUsd, priceFeed];
+    await verify(hre, address, args);
+  }
 
   log('Finished.');
 };

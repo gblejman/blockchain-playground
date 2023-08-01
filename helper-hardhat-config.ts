@@ -35,3 +35,5 @@ export const mocks = {
     initialAnswer: 3000 * 1e8,
   },
 };
+
+export const VERIFICATION_BLOCK_CONFIRMATIONS = 6;

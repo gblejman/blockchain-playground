@@ -14,7 +14,7 @@ error NotOwner();
  * @dev Fund a project with minUsd in terms of wei. Only owner can widthdraw
  */
 contract FundMeChainlink {
-    // chainlink proxy aggregator for ETH/USD @ Sepolia testnet
+    // chainlink proxy aggregator for ETH/USD
     AggregatorV3Interface public priceFeed;
 
     /**
