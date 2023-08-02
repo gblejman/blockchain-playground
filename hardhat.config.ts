@@ -33,8 +33,11 @@ const config: HardhatUserConfig = {
     deployer: {
       default: 0,
     },
-    user: {
+    user1: {
       default: 1,
+    },
+    user2: {
+      default: 2,
     },
   },
   // hardhat verify --network <NETWORK> <CONTRACT_ADDRESS> <CONSTRUCTOR_PARAMETERS>
