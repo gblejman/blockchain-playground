@@ -49,11 +49,11 @@ contract ERC20 is IERC20 {
         return _totalSupply;
     }
 
-    function balanceOf(address owner_) public view returns (uint256 balance) {
-        return _balances[owner_];
+    function balanceOf(address owner) public view returns (uint256 balance) {
+        return _balances[owner];
     }
 
-    function owner() public view returns (address owner_) {
+    function owner() public view returns (address owner) {
         return _owner;
     }
 
@@ -63,21 +63,30 @@ contract ERC20 is IERC20 {
     }
 
     function transferFrom(address from, address to, uint256 value) public returns (bool success) {
-        require(_allowances[from][msg.sender] >= value, "Insufficient Allowance");
-        _allowances[from][msg.sender] -= value;
+        address spender = msg.sender;
+        uint256 currentAllowance = allowance(from, spender);
+        require(currentAllowance >= value, "Insufficient Allowance");
+        _approve(from, spender, currentAllowance - value);
         _transfer(from, to, value);
-        // _allowances[from][msg.sender] -= value; // would allow reentrancy attack - first change the state, then execute
+        // would allow reentrancy attack: calling transferFrom again before this concludes would find there allowance hasn't decreased in state,
+        // and could drain the balance
+        // Must first change the state, then execute
+        // _approve(from, msg.sender, currentAllowance - value);
         return true;
     }
 
     function approve(address spender, uint256 value) public returns (bool success) {
-        _allowances[msg.sender][spender] = value;
-        emit Approval(msg.sender, spender, value);
+        _approve(msg.sender, spender, value);
         return true;
     }
 
-    function allowance(address owner_, address spender) public view returns (uint256 remaining) {
-        return _allowances[owner_][spender];
+    function allowance(address owner, address spender) public view returns (uint256 remaining) {
+        return _allowances[owner][spender];
+    }
+
+    function _approve(address owner, address spender, uint256 value) internal {
+        _allowances[owner][spender] = value;
+        emit Approval(owner, spender, value);
     }
 
     function _transfer(address from, address to, uint256 value) internal {
