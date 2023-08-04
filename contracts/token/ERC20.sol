@@ -13,10 +13,24 @@ contract ERC20 is IERC20 {
     // can not have variables and functions named the same
     string private _name;
     string private _symbol;
+    uint256 private _totalSupply;
+    address private _owner;
+    // mapping of owner to amount
+    mapping(address => uint256) private _balances;
+    // mapping of owner to spender to amount
+    mapping(address => mapping(address => uint256)) _allowances;
 
     constructor(string memory name_, string memory symbol_) {
         _name = name_;
         _symbol = symbol_;
+        _owner = msg.sender;
+        _mint(msg.sender);
+    }
+
+    // erc20 does not have an opinion on how the total supply is generated
+    function _mint(address owner_) private {
+        _totalSupply = 1000000 * 10 ** 18;
+        _balances[owner_] = _totalSupply;
     }
 
     function name() public view returns (string memory) {
@@ -27,31 +41,51 @@ contract ERC20 is IERC20 {
         return _symbol;
     }
 
-    function decimals() public view returns (uint8) {
+    function decimals() public pure returns (uint8) {
         return 18;
     }
 
     function totalSupply() public view returns (uint256) {
-        return 0;
+        return _totalSupply;
     }
 
-    function balanceOf(address _owner) public view returns (uint256 balance) {
-        return 0;
+    function balanceOf(address owner_) public view returns (uint256 balance) {
+        return _balances[owner_];
     }
 
-    function transfer(address _to, uint256 _value) public returns (bool success) {
+    function owner() public view returns (address owner_) {
+        return _owner;
+    }
+
+    function transfer(address to, uint256 value) public returns (bool success) {
+        _transfer(msg.sender, to, value);
         return true;
     }
 
-    function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
+    function transferFrom(address from, address to, uint256 value) public returns (bool success) {
+        require(_allowances[from][msg.sender] >= value, "Insufficient Allowance");
+        _allowances[from][msg.sender] -= value;
+        _transfer(from, to, value);
+        // _allowances[from][msg.sender] -= value; // would allow reentrancy attack - first change the state, then execute
         return true;
     }
 
-    function approve(address _spender, uint256 _value) public returns (bool success) {
+    function approve(address spender, uint256 value) public returns (bool success) {
+        _allowances[msg.sender][spender] = value;
+        emit Approval(msg.sender, spender, value);
         return true;
     }
 
-    function allowance(address _owner, address _spender) public view returns (uint256 remaining) {
-        return 0;
+    function allowance(address owner_, address spender) public view returns (uint256 remaining) {
+        return _allowances[owner_][spender];
+    }
+
+    function _transfer(address from, address to, uint256 value) internal {
+        require(from != address(0), "Invalid Sender Address");
+        require(to != address(0), "Invalid Receiver Address");
+        require(_balances[from] >= value, "Insufficient Balance");
+        _balances[from] -= value;
+        _balances[to] += value;
+        emit Transfer(from, to, value);
     }
 }
