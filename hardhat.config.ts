@@ -6,7 +6,8 @@ import './tasks';
 
 // TODO: move this to a config file/service and better parsing to types
 const ETHEREUM_SEPOLIA_RPC_URL = process.env.ETHEREUM_SEPOLIA_RPC_URL || '';
-const ETHEREUM_SEPOLIA_PRIVATE_KEY = process.env.ETHEREUM_SEPOLIA_PRIVATE_KEY;
+const ETHEREUM_SEPOLIA_PRIVATE_KEY = process.env.ETHEREUM_SEPOLIA_PRIVATE_KEY; // deployer
+const ETHEREUM_SEPOLIA_PRIVATE_KEY_USER1 = process.env.ETHEREUM_SEPOLIA_PRIVATE_KEY_USER1; // user1
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || '';
 const REPORT_GAS = process.env.REPORT_GAS !== undefined;
 const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY || '';
@@ -25,7 +26,7 @@ const config: HardhatUserConfig = {
     },
     sepolia: {
       url: ETHEREUM_SEPOLIA_RPC_URL,
-      accounts: ETHEREUM_SEPOLIA_PRIVATE_KEY ? [ETHEREUM_SEPOLIA_PRIVATE_KEY] : [],
+      accounts: ETHEREUM_SEPOLIA_PRIVATE_KEY ? [ETHEREUM_SEPOLIA_PRIVATE_KEY, ETHEREUM_SEPOLIA_PRIVATE_KEY_USER1] : [],
       chainId: 11155111,
     },
   },
