@@ -66,11 +66,11 @@ contract ERC20 is IERC20 {
         address spender = msg.sender;
         uint256 currentAllowance = allowance(from, spender);
         require(currentAllowance >= value, "Insufficient Allowance");
+
+        // Reduce remaining allowance first to prevent reentrancy attacks. Change state first, then execute
         _approve(from, spender, currentAllowance - value);
         _transfer(from, to, value);
-        // would allow reentrancy attack: calling transferFrom again before this concludes would find there allowance hasn't decreased in state,
-        // and could drain the balance
-        // Must first change the state, then execute
+        // Would allow reentrancy attack: calling transferFrom again before this concludes would find there allowance hasn't decreased in state, allowing balance drain
         // _approve(from, msg.sender, currentAllowance - value);
         return true;
     }
