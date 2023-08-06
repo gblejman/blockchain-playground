@@ -12,7 +12,7 @@ const main = async () => {
   const accountKey = process.env.PRIVATE_KEY || ''; // hardhat account[0]
   const provider = new ethers.JsonRpcProvider(process.env.LOCALHOST_RPC_URL); // printed when running `npx hardhat node`
   const wallet = new ethers.Wallet(accountKey, provider);
-  const { abi, bytecode } = require('../../artifacts/contracts/b-simple-storage/SimpleStorage.sol/SimpleStorage.json'); // compiled artifact after `npx hardhat compile`
+  const { abi, bytecode } = require('../../artifacts/contracts/simple-storage/SimpleStorage.sol/SimpleStorage.json'); // compiled artifact after `npx hardhat compile`
   const contractFactory = (await new ethers.ContractFactory(abi, bytecode, wallet)) as SimpleStorage__factory;
   const contract = await contractFactory.deploy(1);
   await contract.waitForDeployment();
