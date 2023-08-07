@@ -5,6 +5,7 @@ import 'hardhat-deploy';
 import './tasks';
 
 // TODO: move this to a config file/service and better parsing to types
+const ETHEREUM_MAINNET_RPC_URL = process.env.ETHEREUM_MAINNET_RPC_URL || '';
 const ETHEREUM_SEPOLIA_RPC_URL = process.env.ETHEREUM_SEPOLIA_RPC_URL || '';
 const ETHEREUM_SEPOLIA_PRIVATE_KEY = process.env.ETHEREUM_SEPOLIA_PRIVATE_KEY; // deployer
 const ETHEREUM_SEPOLIA_PRIVATE_KEY_USER1 = process.env.ETHEREUM_SEPOLIA_PRIVATE_KEY_USER1; // user1
@@ -23,6 +24,10 @@ const config: HardhatUserConfig = {
     // local node @http://127.0.0.1:8545/ - run `npx hardhat node` and use --network localhost
     localhost: {
       chainId: 31337,
+    },
+    mainnet: {
+      url: ETHEREUM_MAINNET_RPC_URL,
+      chainId: 1,
     },
     sepolia: {
       url: ETHEREUM_SEPOLIA_RPC_URL,
